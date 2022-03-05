@@ -15,30 +15,20 @@
 ### 1. useResize
 
 ```javascript
-
 export const useResize = () =>{
-
-    //초기값은 현재화면의 넓이와 높이로 지정해놓았다.
-	const [state,setState] = useState({
-		w : window.innerWidth,
-		h : window.innerHeight
-	});
-
-	const resizeFuc = () =>{
-		setState({
-			w : window.innerWidth,
-			h : window.innerHeight
-		});
-	}
-
-	useEffect(()=>{
-		window.addEventListener('resize',resizeFuc);
+    const [state,setState] = 
+          useState({w : window.innerWidth, h:  window.innerHeight})
+    
+    const resizeFuc = () => {
+        setState({w : window.innerWidth, h:  window.innerHeight})
+    }
+    
+    useEffect(()=>{
+    	window.addEventListener('resize',resizeFuc);
 		return () => window.removeEventListener('resize',resizeFuc);
-	},[])
-
-
-	return state
-
+    },[])
+    
+    return state;
 }
 ```
 
@@ -47,59 +37,44 @@ export const useResize = () =>{
 ### 2. useHover
 
 ```javascript
-import { useEffect, useRef, useState } from "react"
-
 export const useHover = (hoverFuc) =>{
-
-  const [value, setValue] = useState(false);
-
-  const element = useRef(null);
-
-	//ref를 통해 dom 접근시 범위안쪽일때 true 바깥쪽은 false
-  const handleMouseEnter = () => setValue(true);
-  const handleMouseLeave = () => setValue(false);
-
-	useEffect(()=>{
-
-		const node = element.current;
-		if (node) {
-			node.addEventListener('mouseenter', handleMouseEnter);
-			node.addEventListener('mouseleave', handleMouseLeave);
-
-			return () => {
-				node.removeEventListener('mouseenter', handleMouseEnter);
-				node.removeEventListener('mouseleave', handleMouseLeave);
-			};
-		}
-
-	},[element.current])
-
-  
-	return [element, value];
-
+    const [value,setValue] = useState(false);
+    const element = useRef(null);
+    
+    //ref를 통해 dom 접근시 범위안쪽일때 true 바깥쪽은 false
+    const handleMouseEnter = () => setValue(true);
+    const handleMouseLeave = () => setValue(false);
+    
+    useEffect(()=>{
+        const node = element.current;
+        if(node) {
+        	node.addEventListener('mouseenter', handleMouseEnter);
+            node.addEventListener('mouseleave', handleMouseLeave);
+            
+            return () => {
+            	node.removeEventListener('mouseenter', handleMouseEnter);
+                node.removeEventListener('mouseleave', handleMouseLeave);
+            }
+        }
+        
+    },[element.current])
+    
+    return [element, value];
+    
 }
-
 ```
+
 
 
 &nbsp; 
 ### 3. useScroll
-
 ```javascript
-import { useEffect, useState } from "react"
-
-
 export const useScroll = () =>{
-	const [state,setState] = useState({
-		x : 0,
-		y : 0,
-	})
+    
+	const [state,setState] = useState({x : 0, y : 0})
 
 	const scrollFuc = () =>{
-		setState({
-			x : window.scrollX,
-			y : window.scrollY
-		})
+		setState({x : window.scrollX, y : window.scrollY})
 	}
 
 	useEffect(()=>{
